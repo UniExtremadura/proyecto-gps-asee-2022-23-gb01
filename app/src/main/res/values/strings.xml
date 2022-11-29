@@ -1,3 +1,95 @@
 <resources>
-    <string name="app_name">ASeeProyecto</string>
+    <string name="app_name">MovieCheck</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_pendings">Plan to Watch</string>
+    <string name="login_welcome">Welcome!</string>
+    <string name="login_user">User or email</string>
+    <string name="password">Password</string>
+    <string name="register">Sing up</string>
+    <string name="login_login">Log in</string>
+    <string name="register_title">Enter your data</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="register_repeat_password">Repeat password</string>
+    <string name="detail_title">Detail</string>
+    <string name="detail_info">Info</string>
+    <string name="detail_social">Social</string>
+    <string name="detail_add_favorites">Add to Favorites</string>
+    <string name="detail_add_pendant">Plan to Watch</string>
+    <string name="detail_add_rating">Add rating</string>
+    <string name="detail_comment">Write your comment here</string>
+    <string name="profile_delete_account">Delete account</string>
+    <string name="profile_warning">Warning!</string>
+    <string name="profile_delete_permanently">Delete permanently</string>
+    <string name="password_input">Write your password here</string>
+    <string name="email_input">Write your email here</string>
+    <string name="user_input">Write your username here</string>
+    <string name="password_repeat_input">Repeat your password here</string>
+    <string name="title_profile">Profile</string>
+    <string name="profile_read">Read carefully before continuing</string>
+    <string name="profile_warning_text">You are about to delete your user account. If you decide to continue you will not be able to recover your data, including your favorite and pending movies.</string>
+    <string name="profile_cancel">Cancel</string>
+    <string name="description_app_icon">Application Icon</string>
+    <string name="description_default_profile_picture">Default profile picture</string>
+    <string name="description_warning_icon">Warning icon for account delete</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="movie_release_date" translatable="false">-</string>
+    <string name="movie_fav_button">Toggle favourite</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="movie_pending_button">Toogle pending</string>
+    <string name="movie_date">Release date</string>
+    <string name="movie_duration">Duration</string>
+    <string name="movie_rating_IMDB">Rating TMDB</string>
+    <string name="movie_synopsis">Synopsis</string>
+    <string name="movie_synopsis_large" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt et arcu sed molestie. Ut enim ipsum, maximus nec pretium ac, venenatis nec nisl. Sed fermentum id nisl vel pharetra. Nullam ut iaculis tortor, porttitor dignissim turpis. Vivamus varius laoreet maximus. Phasellus ac enim gravida, lacinia ipsum et, gravida turpis. Nulla lacinia risus quam, id facilisis augue porttitor id. Fusce aliquam orci sem, vel elementum nulla semper et. Sed egestas leo odio, vel imperdiet felis scelerisque id. Nulla facilisi. Integer aliquet semper erat, tempus commodo quam vehicula id. Aenean est quam, vestibulum nec egestas eu, scelerisque ut eros.</string>
+    <string name="movie_genres">Genres</string>
+    <string name="comment_large" translatable="false">Sed sit amet rutrum leo. Sed imperdiet sapien non congue ultrices. Nulla semper neque et tristique volutpat. Aliquam iaculis enim porttitor rutrum ullamcorper.</string>
+    <string name="comment_delete">Delete comment</string>
+    <string name="add_rating_star">Add your rating</string>
+    <string name="add_rating_scale">Add your rating on a scale from 1 to 10</string>
+    <string name="add_rating_large">This rating will be of great help when other users discover new movies.</string>
+    <string name="submit_rating">Submit rating</string>
+    <string name="log_out">Log out</string>
+    <string name="app_info" translatable="false">MovieCheck Info</string>
+    <string name="app_info_about">About MovieCheck</string>
+    <string name="app_info_what_is">What is MovieCheck?</string>
+    <string name="app_info_what_is_response">MovieCheck is simply an app designed to manage the audiovisual preferences of the user.</string>
+    <string name="app_info_what_can_do">What can you do with it?</string>
+    <string name="app_info_what_can_do_response">With MovieCheck you will be able to check information on the most popular movies of the moment. In addition, you can mark those that you like the most as favorites and even list them as pending so you don\'t miss out on the most interesting titles. Not only that, but the members of the MovieCheck community will also be able to interact with each other and exchange their opinions through the social section that can be found in the details of each movie. There you can give your own assessment of the film in question and post any comments about it.</string>
+    <string name="app_info_who">Who has made it?</string>
+    <string name="app_info_who_response">MovieCheck has been developed by the following four students of the Degree in Computer Engineering in Software Engineering taught by the University of Extremadura through the Technology School of Cáceres.</string>
+    <string name="close">Close</string>
+    <string name="toggle_favorites_add">Movie added to Favorites!</string>
+    <string name="toggle_favorites_remove">Movie removed from Favorites</string>
+    <string name="toggle_pending_add">Movie added to Plan to Watch!</string>
+    <string name="toggle_pending_remove">Movie removed from Plan to Watch</string>
+    <string name="rating_add">Rating added!</string>
+    <string name="authors_list" translatable="false">
+        <li>Francisco Javier Mesa Martín</li>\n
+        <li>David Salguero Carrasco</li>\n
+        <li>Marcos Santos Muñoz</li>\n
+        <li>Manuel Rodríguez Rodríguez</li>
+    </string>
+    <string name="rating_cancel">Rating canceled</string>
+    <string name="movie_rating_MovieCheck">Rating MC</string>
+    <string name="add_rating_title">Rate the movie</string>
+    <string name="auto_login">Session logged in as</string>
+    <string name="username_is_invalid">The username must contain at least one letter, cannot include spaces, and must be between 6 and 12 characters in length.</string>
+    <string name="password_is_invalid">The password must contain at least one uppercase letter, one lowercase letter, and one digit. Spaces are not allowed and the length must be between 6 and 16 characters.</string>
+    <string name="email_is_invalid">Wrong email format.</string>
+    <string name="password_coincidence_missing">Passwords do not match.</string>
+    <string name="username_already_exists">Username already exists.</string>
+    <string name="email_already_exists">Email already exists.</string>
+    <string name="wrong_credentials">Credentials do not match with any user. Please, try again.</string>
+    <string name="remove_favorite">Remove Favorite</string>
+    <string name="remove_pending">Remove Pending</string>
+    <string name="empty_comment">Comment body is empty. Write something!</string>
+    <string name="delete_comment">Comment deleted!</string>
+    <string name="rating_already_added">You have already rated this movie. Thanks for your participation!</string>
+    <string name="rating_not_added">No rating has been added. Take your time!</string>
+    <string name="login_bar_title">Login</string>
+    <string name="register_bar_title">Sign Up</string>
+    <string name="delete_account_bar_title">Delete Account</string>
 </resources>

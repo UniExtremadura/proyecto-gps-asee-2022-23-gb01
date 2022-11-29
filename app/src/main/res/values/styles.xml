@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilo para la BottomNavigationBar -->
+    <!-- Se ha definido un estilo propio ya que el tema de la app (claro/oscuro) no le afecta -->
+    <!-- El estilo se asocia a la BottomNavigationBar en el elemento BottomNavigationView del archivo activity_main.xml -->
+    <style name="BottomNavigationBar">
+        <item name="android:background">@color/black_navigation</item> <!-- Color de fondo de la BottomNavigationBar -->
+        <item name="itemIconTint">@drawable/ic_change_color</item> <!-- Color de los iconos. Como este color cambia al situarse sobre uno en concreto, se define dicho
+                                                                        cambio de color en el archivo ic_change_color en la carpeta drawable. -->
+        <item name="labelVisibilityMode">unlabeled</item> <!-- Atributo que deshabilita las etiquetas que aparecen debajo de los iconos -->
+        <item name="itemIconSize">32dp</item> <!-- Tamaño de los iconos -->
+    </style>
+
+    <style name="TabFont" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="NumberPickerText">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+</resources>
