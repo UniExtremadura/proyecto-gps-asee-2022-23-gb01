@@ -45,6 +45,22 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".activities.ItemDetailActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.DeleteAccountActivity"
+            android:exported="false"
+            android:screenOrientation="nosensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
     </application>
 
 </manifest>
