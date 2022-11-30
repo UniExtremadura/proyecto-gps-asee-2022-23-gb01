@@ -1,5 +1,11 @@
 package es.unex.asee_proyectoprueba.activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,17 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
 import java.util.List;
 
+import es.unex.asee_proyectoprueba.API.FilmAPI;
+import es.unex.asee_proyectoprueba.support.AppExecutors;
 import es.unex.asee_proyectoprueba.R;
 import es.unex.asee_proyectoprueba.model.Films;
 import es.unex.asee_proyectoprueba.model.FilmsPages;
@@ -29,7 +31,6 @@ import es.unex.asee_proyectoprueba.model.Genre;
 import es.unex.asee_proyectoprueba.model.GenresList;
 import es.unex.asee_proyectoprueba.model.User;
 import es.unex.asee_proyectoprueba.room.FilmsDatabase;
-import es.unex.asee_proyectoprueba.support.AppExecutors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +64,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setTitle(R.string.login_bar_title);
 
-
+        // Se realiza la carga de datos, si es la primera ejecución de la app, sin interferir en la experiencia de usuario
+        FilmsDatabase db = FilmsDatabase.getInstance(LoginActivity.this);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Films> fList = db.filmDAO().getAllFilms();
+                if (fList.size() == 0){
+                    getData();
+                }
+            }
+        });
 
         // Se accede a las preferencias almacenadas en la App
         loginPreferences = getSharedPreferences(getPackageName()+"_preferences", Context.MODE_PRIVATE);
@@ -91,8 +102,135 @@ public class LoginActivity extends AppCompatActivity {
         bLogin.setOnClickListener(this::logIn);
     }
 
+    public void getData(){
+        AppExecutors.getInstance().networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                getFilms();
+                getGenres();
+                getFilmsGenres();
+            }
+        });
+    }
 
+    public void getFilms(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLBASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FilmAPI api = retrofit.create(FilmAPI.class);
+        Call<FilmsPages> call = api.getFilms(APIKEY,LANGUAGE);
 
+        call.enqueue(new Callback<FilmsPages>() {
+            @Override
+            public void onResponse(Call<FilmsPages> call, Response<FilmsPages> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG,"CODE: "+response.code());
+                }
+
+                assert response.body() != null;
+                List<Films> fLists = response.body().getResults();
+                putFilmsOnDatabase(fLists);
+            }
+
+            @Override
+            public void onFailure(Call<FilmsPages> call, Throwable t) {
+                Log.i(TAG,"ERROR: LA APLICACIÓN FALLÓ AL REALIZAR LA CONSULTA");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void getGenres(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLBASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FilmAPI api = retrofit.create(FilmAPI.class);
+        Call<GenresList> call = api.getGenres(APIKEY,LANGUAGE);
+
+        call.enqueue(new Callback<GenresList>() {
+            @Override
+            public void onResponse(Call<GenresList> call, Response<GenresList> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG,"CODE: "+response.code());
+                }
+
+                assert response.body() != null;
+                List<Genre> gLists = response.body().getGenres();
+                putGenresOnDatabase(gLists);
+            }
+
+            @Override
+            public void onFailure(Call<GenresList> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getFilmsGenres(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLBASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FilmAPI api = retrofit.create(FilmAPI.class);
+        Call<FilmsPages> call = api.getFilms(APIKEY,LANGUAGE);
+
+        call.enqueue(new Callback<FilmsPages>() {
+            @Override
+            public void onResponse(Call<FilmsPages> call, Response<FilmsPages> response) {
+                if(!response.isSuccessful()){
+                    Log.i(TAG,"CODE: "+response.code());
+                }
+
+                assert response.body() != null;
+                List<Films> fLists = response.body().getResults();
+                putFilmsGenresListOnDatabase(fLists);
+            }
+
+            @Override
+            public void onFailure(Call<FilmsPages> call, Throwable t) {
+                Log.i(TAG,"ERROR: LA APLICACIÓN FALLÓ AL REALIZAR LA CONSULTA");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void putFilmsOnDatabase(List<Films> list) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(LoginActivity.this);
+                db.filmDAO().insertAllFilms(list);
+            }
+        });
+    }
+
+    public void putGenresOnDatabase(List<Genre> list) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(LoginActivity.this);
+                db.genreDAO().insertAllGenres(list);
+            }
+        });
+    }
+
+    public void putFilmsGenresListOnDatabase(List<Films> list) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(LoginActivity.this);
+                for(Films films: list) {
+                    List<Integer> ids = films.getGenreIds();
+                    for (Integer id : ids) {
+                        db.filmsGenresListDAO().insertFilmGenre(films.getId(), id);
+                    }
+                }
+            }
+        });
+    }
 
     /**
      * Obtiene todos los usuarios almacenados en la BD.
