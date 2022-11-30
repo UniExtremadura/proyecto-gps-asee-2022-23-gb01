@@ -39,6 +39,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item_detail);
         setTitle(R.string.detail_title);
 
 
