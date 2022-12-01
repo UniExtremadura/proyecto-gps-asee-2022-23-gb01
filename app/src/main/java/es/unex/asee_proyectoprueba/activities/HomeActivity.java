@@ -28,15 +28,18 @@ import java.util.ArrayList;
 
 import es.unex.asee_proyectoprueba.R;
 import es.unex.asee_proyectoprueba.adapters.FilmAdapter;
+import es.unex.asee_proyectoprueba.adapters.FilmListAdapter;
 import es.unex.asee_proyectoprueba.databinding.ActivityMainBinding;
+import es.unex.asee_proyectoprueba.model.Favorites;
 import es.unex.asee_proyectoprueba.model.Films;
+import es.unex.asee_proyectoprueba.model.Pendings;
 import es.unex.asee_proyectoprueba.room.FilmsDatabase;
 import es.unex.asee_proyectoprueba.support.AppExecutors;
 import es.unex.asee_proyectoprueba.support.UserFilmsData;
 import es.unex.asee_proyectoprueba.ui.profile.ProfileFragment;
 
 
-public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener, FilmAdapter.FilmListener {
+public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener, FilmAdapter.FilmListener, FilmListAdapter.ActionButtonListener {
 
     private ActivityMainBinding binding;
     private SharedPreferences loginPreferences;
@@ -177,6 +180,44 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
     public void onInfoButtonPressed() {
         Intent intent = new Intent(this, AppInfoActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFavButtonPressed(Films film, FilmListAdapter filmListAdapter) {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userFavoriteFilms.remove(film.getId());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
+                db.favoritesDAO().deleteFavorites(new Favorites(film.getId(), loginPreferences.getString("USERNAME", "")));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        filmListAdapter.swap(new ArrayList<>(userFilmsData.userFavoriteFilms.values()));
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onPendingButtonPressed(Films film, FilmListAdapter filmListAdapter) {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userPendingFilms.remove(film.getId());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
+                db.pendingsDAO().deletePendings(new Pendings(film.getId(), loginPreferences.getString("USERNAME", "")));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        filmListAdapter.swap(new ArrayList<>(userFilmsData.userPendingFilms.values()));
+                    }
+                });
+            }
+        });
     }
 
 }
