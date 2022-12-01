@@ -1,9 +1,14 @@
 package es.unex.asee_proyectoprueba.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -21,9 +26,10 @@ import java.util.ArrayList;
 
 import es.unex.asee_proyectoprueba.R;
 import es.unex.asee_proyectoprueba.databinding.ActivityMainBinding;
+import es.unex.asee_proyectoprueba.ui.profile.ProfileFragment;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener {
 
     private ActivityMainBinding binding;
 
@@ -79,4 +85,47 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Implementación del método onDeleteAccountButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * para eliminar la cuenta de usuario en ProfileFragment.
+     * Se lanza la actividad DeleteAccountActivity a la espera de si el usuario confirma la eliminación de la cuenta o no.
+     * La respuesta es recogida en deleteAccountLauncher.
+     */
+    @Override
+    public void onDeleteAccountButtonPressed() {
+        Intent intent = new Intent(this, DeleteAccountActivity.class);
+        deleteAccountLauncher.launch(intent);
+    }
+
+    /**
+     * Recupera la respuesta devuelta por DeleteAccountActivity. Si el usuario no ha eliminado la cuenta, no se hace nada. En caso contrario
+     * (RESULT_OK), se inicia la actividad de LoginActivity para acceder con una nueva cuenta y se finaliza la actividad actual para vaciar
+     * la pila de Back.
+     */
+    ActivityResultLauncher<Intent> deleteAccountLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
+
+    /**
+     * Implementación del método onLogoutButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * para cerrar sesión localizado en ProfileFragment.
+     * Se lanza la actividad LoginActivity para volver a iniciar sesión y se finaliza la actividad actual para 'limpiar' la pila de Back.
+     */
+    @Override
+    public void onLogoutButtonPressed() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
