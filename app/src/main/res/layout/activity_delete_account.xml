@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DeleteAccountActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivWarningIconDelete"
+                android:layout_width="115dp"
+                android:layout_height="118dp"
+                android:contentDescription="@string/description_warning_icon"
+                android:src="@android:drawable/stat_sys_warning"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.088"
+                app:tint="@color/red_widgets" />
+
+            <TextView
+                android:id="@+id/tvWarningDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/profile_warning"
+                android:textSize="26sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivWarningIconDelete" />
+
+            <TextView
+                android:id="@+id/tvReadDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/profile_read"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWarningDelete" />
+
+            <TextView
+                android:id="@+id/tvReadLargeDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-2dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="-2dp"
+                android:justificationMode="inter_word"
+                android:text="@string/profile_warning_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/tvReadDelete"
+                app:layout_constraintStart_toStartOf="@+id/tvReadDelete"
+                app:layout_constraintTop_toBottomOf="@+id/tvReadDelete" />
+
+            <Button
+                android:id="@+id/bDelete"
+                android:layout_width="225dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="38dp"
+                android:backgroundTint="@color/red_widgets"
+                android:text="@string/profile_delete_permanently"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvReadLargeDelete"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/bCancelDelete"
+                android:layout_width="225dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="18dp"
+                android:backgroundTint="@color/teal_200"
+                android:text="@string/profile_cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bDelete"
+                tools:ignore="TextContrastCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
