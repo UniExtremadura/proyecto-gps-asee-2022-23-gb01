@@ -6,5 +6,146 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-48dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivAppIconProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_default_profile_picture"
+                android:src="@mipmap/ic_launcher_foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.025" />
+
+            <TextView
+                android:id="@+id/tvAppNameProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/app_name"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivAppIconProfile" />
+
+            <TextView
+                android:id="@+id/tvUsernameProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/username"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.101"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAppNameProfile" />
+
+            <TextView
+                android:id="@+id/tvUsernameValueProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/username"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvUsernameProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameProfile" />
+
+            <TextView
+                android:id="@+id/tvEmailProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/email"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvUsernameValueProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameValueProfile" />
+
+            <TextView
+                android:id="@+id/tvEmailValueProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/email"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvEmailProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailProfile" />
+
+            <TextView
+                android:id="@+id/tvPasswordProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/password"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvEmailValueProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailValueProfile" />
+
+            <TextView
+                android:id="@+id/tvPasswordValueProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/password"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvPasswordProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasswordProfile" />
+
+            <Button
+                android:id="@+id/bDeleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/red_widgets"
+                android:text="@string/profile_delete_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bLogOut"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/bLogOut"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:backgroundTint="@color/blue_special_text"
+                android:text="@string/log_out"
+                app:layout_constraintEnd_toEndOf="@+id/bDeleteAccount"
+                app:layout_constraintStart_toStartOf="@+id/bDeleteAccount"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasswordValueProfile"
+                tools:ignore="TextContrastCheck,TextContrastCheck" />
+
+            <ImageButton
+                android:id="@+id/ibAppInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:contentDescription="@string/app_info"
+                android:src="@drawable/ic_app_info"
+                app:layout_constraintStart_toEndOf="@+id/ivAppIconProfile"
+                app:layout_constraintTop_toTopOf="@+id/ivAppIconProfile"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
