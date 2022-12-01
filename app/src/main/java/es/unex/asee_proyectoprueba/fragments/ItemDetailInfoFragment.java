@@ -97,6 +97,21 @@ public class ItemDetailInfoFragment extends Fragment {
             }
         });
 
+        // Cuando se presiona en el botón de añadir/quitar de pendientes
+        bTogglePendingDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(filmInPendings()){
+                    setPendingButtonAdd();
+                    Toast.makeText(getActivity(), R.string.toggle_pending_remove, Toast.LENGTH_SHORT).show();
+                } else {
+                    addFilmToPendings();
+                    setPendingButtonRemove();
+                    Toast.makeText(getActivity(), R.string.toggle_pending_add, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -248,6 +263,23 @@ public class ItemDetailInfoFragment extends Fragment {
         UserFilmsData userFilmsData = UserFilmsData.getInstance();
         return userFilmsData.userPendingFilms.get(film.getId()) != null;
     }
+
+
+    /**
+     * Añade la película a la información viva del usuario respecto a sus películas pendientes y también la añade a la BD.
+     */
+    private void addFilmToPendings() {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userPendingFilms.put(film.getId(), film);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(getActivity());
+                db.pendingsDAO().insertPendings(new Pendings(film.getId(), loginPreferences.getString("USERNAME", "")));
+            }
+        });
+    }
+
 
 
     @Override
