@@ -1,9 +1,16 @@
 package es.unex.asee_proyectoprueba.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -20,16 +27,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 import es.unex.asee_proyectoprueba.R;
+import es.unex.asee_proyectoprueba.adapters.FilmAdapter;
 import es.unex.asee_proyectoprueba.databinding.ActivityMainBinding;
+import es.unex.asee_proyectoprueba.model.Films;
+import es.unex.asee_proyectoprueba.room.FilmsDatabase;
+import es.unex.asee_proyectoprueba.support.AppExecutors;
+import es.unex.asee_proyectoprueba.support.UserFilmsData;
+import es.unex.asee_proyectoprueba.ui.profile.ProfileFragment;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener, FilmAdapter.FilmListener {
 
     private ActivityMainBinding binding;
+    private SharedPreferences loginPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loginPreferences = getSharedPreferences(getPackageName()+"_preferences", Context.MODE_PRIVATE);
+
+        obtainUserData();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -47,6 +65,34 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    /**
+     *
+     * @param film Objeto Films que contiene la información de la película de la que se quiere mostrar la información
+     */
+    @Override
+    public void onFilmSelected(Films film){
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra("FILM", film);
+        startActivity(intent);
+    }
+
+    public void obtainUserData(){
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
+                for (Films film : db.filmDAO().getFavoritesFilms(loginPreferences.getString("USERNAME", ""))) {
+                    userFilmsData.userFavoriteFilms.put(film.getId(), film);
+                }
+                for (Films film : db.filmDAO().getPendingsFilms(loginPreferences.getString("USERNAME", ""))) {
+                    userFilmsData.userPendingFilms.put(film.getId(), film);
+                }
+                userFilmsData.userRatedFilms.addAll(db.ratingDAO().getRatingIDs(loginPreferences.getString("USERNAME", "")));
+            }
+        });
     }
 
     /**
@@ -79,4 +125,47 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Implementación del método onDeleteAccountButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * para eliminar la cuenta de usuario en ProfileFragment.
+     * Se lanza la actividad DeleteAccountActivity a la espera de si el usuario confirma la eliminación de la cuenta o no.
+     * La respuesta es recogida en deleteAccountLauncher.
+     */
+    @Override
+    public void onDeleteAccountButtonPressed() {
+        Intent intent = new Intent(this, DeleteAccountActivity.class);
+        deleteAccountLauncher.launch(intent);
+    }
+
+    /**
+     * Recupera la respuesta devuelta por DeleteAccountActivity. Si el usuario no ha eliminado la cuenta, no se hace nada. En caso contrario
+     * (RESULT_OK), se inicia la actividad de LoginActivity para acceder con una nueva cuenta y se finaliza la actividad actual para vaciar
+     * la pila de Back.
+     */
+    ActivityResultLauncher<Intent> deleteAccountLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
+
+    /**
+     * Implementación del método onLogoutButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * para cerrar sesión localizado en ProfileFragment.
+     * Se lanza la actividad LoginActivity para volver a iniciar sesión y se finaliza la actividad actual para 'limpiar' la pila de Back.
+     */
+    @Override
+    public void onLogoutButtonPressed() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
