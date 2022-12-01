@@ -168,4 +168,15 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
         finish();
     }
 
+    /**
+     * Implementación del método onInfoButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * de 'Información de la App' localizado en ProfileFragment.
+     * Se lanza la actividad AppInfoActivity para mostrar información de interés de la App.
+     */
+    @Override
+    public void onInfoButtonPressed() {
+        Intent intent = new Intent(this, AppInfoActivity.class);
+        startActivity(intent);
+    }
+
 }
