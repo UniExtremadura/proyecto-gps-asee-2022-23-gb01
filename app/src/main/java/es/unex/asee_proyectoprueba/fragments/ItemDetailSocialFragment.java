@@ -88,6 +88,15 @@ public class ItemDetailSocialFragment extends Fragment {
 
         updateUI();
 
+        bAddRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(filmNotRated()){
+                    addRating(npAddRating.getValue());
+                }
+            }
+        });
+
         ibSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +136,7 @@ public class ItemDetailSocialFragment extends Fragment {
             public void run() {
                 tvMovieTitle.setText(film.getTitle());
                 tvMovieDate.setText(film.getReleaseDate().split("-")[0]);
+                updateRating();
                 Glide.with(getContext()).load("https://image.tmdb.org/t/p/original/" + film.getPosterPath()).into(ivMoviePoster);
                 commentAdapter.swap(commentList);
             }
@@ -142,6 +152,51 @@ public class ItemDetailSocialFragment extends Fragment {
                 commentAdapter.swap(commentList);
             }
         });
+    }
+
+    private boolean filmNotRated() {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        return !userFilmsData.userRatedFilms.contains(film.getId());
+    }
+
+    private void addRating(int rating){
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userRatedFilms.add(film.getId());
+        film.setTotalVotesMovieCheck(film.getTotalVotesMovieCheck()+1);
+        film.setTotalRatingMovieCheck(film.getTotalRatingMovieCheck()+rating);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(getContext());
+                db.ratingDAO().insertRating(new Rating(film.getId(), loginPreferences.getString("USERNAME", ""), rating));
+                db.filmDAO().updateFilm(film);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRatingSocial.setText(Double.toString((double) film.getTotalRatingMovieCheck()/film.getTotalVotesMovieCheck()));
+                        npAddRating.setEnabled(false);
+                        npAddRating.setVisibility(getView().INVISIBLE);
+                        bAddRating.setEnabled(false);
+                        bAddRating.setVisibility(getView().INVISIBLE);
+                        tvRatingSocial.setText(Double.toString(round((double) film.getTotalRatingMovieCheck()/film.getTotalVotesMovieCheck())));
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateRating(){
+        if(film.getTotalVotesMovieCheck()!=0){
+            tvRatingSocial.setText(Double.toString(round((double) film.getTotalRatingMovieCheck()/film.getTotalVotesMovieCheck())));
+        } else {
+            tvRatingSocial.setText("----");
+        }
+        if (!filmNotRated()){
+            npAddRating.setEnabled(false);
+            npAddRating.setVisibility(getView().INVISIBLE);
+            bAddRating.setEnabled(false);
+            bAddRating.setVisibility(getView().INVISIBLE);
+        }
     }
 
     @Override
