@@ -112,7 +112,14 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailI
      */
     @Override
     public void deleteComment(Comments comment, CommentAdapter commentAdapter) {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                commentList.remove(comment);
+                commentAdapter.swap(commentList);
+            }
+        });
+        Toast.makeText(this, R.string.delete_comment, Toast.LENGTH_SHORT).show();
     }
 
     /**
