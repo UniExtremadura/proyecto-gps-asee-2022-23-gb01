@@ -102,6 +102,7 @@ public class ItemDetailInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(filmInPendings()){
+                    removeFilmFromPendings();
                     setPendingButtonAdd();
                     Toast.makeText(getActivity(), R.string.toggle_pending_remove, Toast.LENGTH_SHORT).show();
                 } else {
@@ -280,7 +281,20 @@ public class ItemDetailInfoFragment extends Fragment {
         });
     }
 
-
+    /**
+     * Elimina la película de la información viva del usuario respecto a sus películas pendientes y también la elimina de la BD.
+     */
+    private void removeFilmFromPendings() {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userPendingFilms.remove(film.getId());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(getActivity());
+                db.pendingsDAO().deletePendings(new Pendings(film.getId(), loginPreferences.getString("USERNAME", "")));
+            }
+        });
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
