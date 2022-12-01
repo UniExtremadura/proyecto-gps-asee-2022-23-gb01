@@ -104,6 +104,22 @@ public class ItemDetailInfoFragment extends Fragment {
         });
     }
 
+    /**
+     * Elimina la película de la lista de favoritos del usuario. Para ello, actualiza la información viva del usuario respecto a las
+     * películas favoritas y también la elimina de la base de datos.
+     */
+    private void removeFilmFromFavorites() {
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        userFilmsData.userFavoriteFilms.remove(film.getId());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(getActivity());
+                db.favoritesDAO().deleteFavorites(new Favorites(film.getId(), loginPreferences.getString("USERNAME", "")));
+            }
+        });
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
