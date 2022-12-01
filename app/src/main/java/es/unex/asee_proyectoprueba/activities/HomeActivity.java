@@ -115,4 +115,17 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
                     }
                 }
             });
+
+    /**
+     * Implementación del método onLogoutButtonPressed() de la interfaz ProfileListener definido para controlar el comportamiento del botón
+     * para cerrar sesión localizado en ProfileFragment.
+     * Se lanza la actividad LoginActivity para volver a iniciar sesión y se finaliza la actividad actual para 'limpiar' la pila de Back.
+     */
+    @Override
+    public void onLogoutButtonPressed() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
