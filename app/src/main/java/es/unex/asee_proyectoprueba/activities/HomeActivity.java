@@ -1,6 +1,8 @@
 package es.unex.asee_proyectoprueba.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +27,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 import es.unex.asee_proyectoprueba.R;
+import es.unex.asee_proyectoprueba.adapters.FilmAdapter;
 import es.unex.asee_proyectoprueba.databinding.ActivityMainBinding;
+import es.unex.asee_proyectoprueba.model.Films;
+import es.unex.asee_proyectoprueba.room.FilmsDatabase;
+import es.unex.asee_proyectoprueba.support.AppExecutors;
+import es.unex.asee_proyectoprueba.support.UserFilmsData;
 import es.unex.asee_proyectoprueba.ui.profile.ProfileFragment;
 
 
-public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener {
+public class HomeActivity extends AppCompatActivity implements ProfileFragment.ProfileListener, FilmAdapter.FilmListener {
 
     private ActivityMainBinding binding;
+    private SharedPreferences loginPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loginPreferences = getSharedPreferences(getPackageName()+"_preferences", Context.MODE_PRIVATE);
+
+        obtainUserData();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -53,6 +65,34 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    /**
+     *
+     * @param film Objeto Films que contiene la información de la película de la que se quiere mostrar la información
+     */
+    @Override
+    public void onFilmSelected(Films film){
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra("FILM", film);
+        startActivity(intent);
+    }
+
+    public void obtainUserData(){
+        UserFilmsData userFilmsData = UserFilmsData.getInstance();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
+                for (Films film : db.filmDAO().getFavoritesFilms(loginPreferences.getString("USERNAME", ""))) {
+                    userFilmsData.userFavoriteFilms.put(film.getId(), film);
+                }
+                for (Films film : db.filmDAO().getPendingsFilms(loginPreferences.getString("USERNAME", ""))) {
+                    userFilmsData.userPendingFilms.put(film.getId(), film);
+                }
+                userFilmsData.userRatedFilms.addAll(db.ratingDAO().getRatingIDs(loginPreferences.getString("USERNAME", "")));
+            }
+        });
     }
 
     /**

@@ -1,8 +1,15 @@
-package es.unex.asee_proyectoprueba.fragment;
+package es.unex.asee_proyectoprueba.fragments;
+
+import static java.lang.Math.round;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +21,21 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.asee_proyectoprueba.sharedinterfaces.ItemDetailInterface;
+import es.unex.asee_proyectoprueba.support.AppExecutors;
 import es.unex.asee_proyectoprueba.R;
+import es.unex.asee_proyectoprueba.support.UserFilmsData;
 import es.unex.asee_proyectoprueba.adapters.CommentAdapter;
 import es.unex.asee_proyectoprueba.model.Comments;
 import es.unex.asee_proyectoprueba.model.Films;
 import es.unex.asee_proyectoprueba.model.Rating;
 import es.unex.asee_proyectoprueba.room.FilmsDatabase;
-import es.unex.asee_proyectoprueba.sharedinterfaces.ItemDetailInterface;
-import es.unex.asee_proyectoprueba.support.AppExecutors;
-import es.unex.asee_proyectoprueba.support.UserFilmsData;
 
 public class ItemDetailSocialFragment extends Fragment {
 
@@ -76,6 +79,15 @@ public class ItemDetailSocialFragment extends Fragment {
         commentAdapter = new CommentAdapter(commentList, loginPreferences.getString("USERNAME", ""), getContext());
         setupRecyclerView((RecyclerView) recyclerView);
 
+        getViewsReferences(v);
+        npAddRating.setMinValue(1);
+        npAddRating.setMaxValue(10);
+
+        film = itemDetailInterface.getFilmSelected();
+        Log.i("Q", "Número de votos al crear social: "+film.getTotalVotesMovieCheck());
+
+        updateUI();
+
         ibSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +105,32 @@ public class ItemDetailSocialFragment extends Fragment {
         return v;
     }
 
+    private void getViewsReferences(View view) {
+        ivMoviePoster = view.findViewById(R.id.ivMoviePoster);
+        tvMovieTitle = view.findViewById(R.id.tvMovieTitle);
+        tvMovieDate = view.findViewById(R.id.tvMovieDate);
+        tvRatingSocial = view.findViewById(R.id.tvRatingSocial);
+        etCommentSocial = view.findViewById(R.id.etCommentSocial);
+        ibSendComment = view.findViewById(R.id.ibSendComment);
+        bAddRating = view.findViewById(R.id.bAddRating);
+        npAddRating = view.findViewById(R.id.npAddRating);
+    }
+
     public void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(commentAdapter);
+    }
+
+    private void updateUI() {
+        commentList = itemDetailInterface.getCommentList();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvMovieTitle.setText(film.getTitle());
+                tvMovieDate.setText(film.getReleaseDate().split("-")[0]);
+                Glide.with(getContext()).load("https://image.tmdb.org/t/p/original/" + film.getPosterPath()).into(ivMoviePoster);
+                commentAdapter.swap(commentList);
+            }
+        });
     }
 
     private void addComment(String commentBody) {
@@ -108,7 +144,6 @@ public class ItemDetailSocialFragment extends Fragment {
         });
     }
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -117,5 +152,11 @@ public class ItemDetailSocialFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context + " must implement InfoButtonListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        updateUI();
+        super.onResume();
     }
 }

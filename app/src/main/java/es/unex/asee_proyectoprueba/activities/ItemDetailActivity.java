@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unex.asee_proyectoprueba.R;
+import es.unex.asee_proyectoprueba.adapters.CommentAdapter;
+import es.unex.asee_proyectoprueba.adapters.TabsViewPagerAdapter;
 import es.unex.asee_proyectoprueba.model.Comments;
 import es.unex.asee_proyectoprueba.model.Films;
 import es.unex.asee_proyectoprueba.room.FilmsDatabase;
 import es.unex.asee_proyectoprueba.sharedinterfaces.ItemDetailInterface;
 import es.unex.asee_proyectoprueba.support.AppExecutors;
 
-public class ItemDetailActivity extends AppCompatActivity implements ItemDetailInterface {
+public class ItemDetailActivity extends AppCompatActivity implements ItemDetailInterface, CommentAdapter.DeleteCommentInterface  {
 
     // Objetos necesarios para la gestión de los Tabs
     TabLayout tabLayout;
@@ -42,8 +44,34 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailI
         setContentView(R.layout.activity_item_detail);
         setTitle(R.string.detail_title);
 
+        tabLayout = findViewById(R.id.tlDetail);
+        viewPager2 = findViewById(R.id.vpDetail);
 
         loginPreferences = getSharedPreferences(getPackageName()+"_preferences", Context.MODE_PRIVATE);
+
+        viewPager2.setAdapter(new TabsViewPagerAdapter(this.getSupportFragmentManager(), getLifecycle()));
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         // Se obtiene la película de la que se quiere mostrar información
         film = (Films) getIntent().getSerializableExtra("FILM");
@@ -65,6 +93,26 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailI
                 film = db.filmDAO().getFilm(film.getId());
             }
         });
+    }
+
+    /**
+     * Devuelve los comentarios que se tiene de la película en cuestión.
+     * @return Lista de comentarios con los comentarios actuales (vivos) de la película en cuestión
+     */
+    @Override
+    public List<Comments> getCommentList() {
+        return commentList;
+    }
+
+    /**
+     * Elimina un comentario de una película. Como esta acción se registra en un botón que aparece en cada uno de los elementos de la
+     * RecyclerView de los comentarios, se requiere actualizar dicho adapter. Por ello se pasa su referencia.
+     * @param comment Comentario que se desea eliminar
+     * @param commentAdapter Adapter que lanza el borrado del comentario
+     */
+    @Override
+    public void deleteComment(Comments comment, CommentAdapter commentAdapter) {
+
     }
 
     /**

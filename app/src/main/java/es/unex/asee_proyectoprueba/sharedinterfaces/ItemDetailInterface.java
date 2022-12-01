@@ -8,4 +8,5 @@ import es.unex.asee_proyectoprueba.model.Films;
 // Interfaz para comunicar este Fragment con su actividad (ItemDetailActivity)
 public interface ItemDetailInterface {
     Films getFilmSelected();
+    List<Comments> getCommentList();
 }
