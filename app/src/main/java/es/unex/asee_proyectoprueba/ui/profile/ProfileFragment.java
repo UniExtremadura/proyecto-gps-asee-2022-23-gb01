@@ -28,6 +28,7 @@ public class ProfileFragment extends Fragment {
     private SharedPreferences loginPreferences;
 
     // Referencias a vistas de la UI
+    private ImageButton ibAppInfo;
     private Button bLogOut;
     private Button bDeleteAccount;
     private TextView tvUsernameValueProfile;
@@ -42,6 +43,14 @@ public class ProfileFragment extends Fragment {
         getViewsReferences(root);
 
         updateUI();
+
+        // Se hace click en el botón para mostrar la información de la App
+        ibAppInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                profileListener.onInfoButtonPressed();
+            }
+        });
 
         // Se hace click en el botón para Cerrar sesión
         bLogOut.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +71,7 @@ public class ProfileFragment extends Fragment {
      * Método para obtener las referencias a cada una de las vistas que forman parte de la UI del fragmento.
      */
     private void getViewsReferences(View view) {
+        ibAppInfo = view.findViewById(R.id.ibAppInfo);
         bLogOut = view.findViewById(R.id.bLogOut);
         bDeleteAccount = view.findViewById(R.id.bDeleteAccount);
         tvUsernameValueProfile = view.findViewById(R.id.tvUsernameValueProfile);
@@ -126,6 +136,7 @@ public class ProfileFragment extends Fragment {
      * Interfaz para comunicar el fragmento con su actividad (HomeActivity)
      */
     public interface ProfileListener{
+        void onInfoButtonPressed();
         void onLogoutButtonPressed();
         void onDeleteAccountButtonPressed();
     }
