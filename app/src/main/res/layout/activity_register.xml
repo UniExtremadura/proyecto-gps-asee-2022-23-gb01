@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivAppIconRegister"
+                android:layout_width="137dp"
+                android:layout_height="118dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_launcher_foreground"
+                android:contentDescription="@string/description_app_icon" />
+
+            <TextView
+                android:id="@+id/tvAppNameRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textAllCaps="false"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivAppIconRegister" />
+
+            <TextView
+                android:id="@+id/tvEnterDataTextRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/register_title"
+                android:textSize="26sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAppNameRegister" />
+
+            <TextView
+                android:id="@+id/tvUsernameRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/username"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEnterDataTextRegister" />
+
+            <EditText
+                android:id="@+id/etEmailRegister"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:autofillHints="emailAddress"
+                android:ems="10"
+                android:hint="@string/email_input"
+                android:inputType="textEmailAddress"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/etUsernameRegister"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvEmailRegister"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailRegister"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvEmailRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/email"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/etUsernameRegister"
+                app:layout_constraintTop_toBottomOf="@+id/etUsernameRegister" />
+
+            <EditText
+                android:id="@+id/etUsernameRegister"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints="username"
+                android:ems="10"
+                android:hint="@string/user_input"
+                android:inputType="text"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvUsernameRegister"
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernameRegister"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/bRegister"
+                android:layout_width="165dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/red_widgets"
+                android:text="@string/register"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etRepeatPasswordRegister"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvPasswordRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/password"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/etEmailRegister"
+                app:layout_constraintTop_toBottomOf="@+id/etEmailRegister" />
+
+            <EditText
+                android:id="@+id/etPasswordRegister"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="4dp"
+                android:autofillHints="password"
+                android:ems="10"
+                android:hint="@string/password_input"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/etEmailRegister"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvPasswordRegister"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasswordRegister"
+                tools:ignore="TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/etRepeatPasswordRegister"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:hint="@string/password_repeat_input"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/etEmailRegister"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvRepeatPasswordRegister"
+                app:layout_constraintTop_toBottomOf="@+id/tvRepeatPasswordRegister"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvRepeatPasswordRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/register_repeat_password"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/etPasswordRegister"
+                app:layout_constraintTop_toBottomOf="@+id/etPasswordRegister" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
