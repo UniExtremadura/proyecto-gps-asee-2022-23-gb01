@@ -26,4 +26,12 @@ public class FilmsGenresList {
     public void setGenreID(int genreID) {
         this.genreID = genreID;
     }
+
+    public FilmsGenresList() {
+    }
+
+    public FilmsGenresList(int filmid, int genreid) {
+        filmID = filmid;
+        genreID = genreid;
+    }
 }
