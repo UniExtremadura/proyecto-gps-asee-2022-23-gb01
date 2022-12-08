@@ -13,4 +13,7 @@ public interface FilmsGenresListDAO {
 
     @Query("SELECT name FROM FilmsGenresList fg JOIN Genres f ON (fg.genreID=f.genreID) WHERE filmID = (:filmid)")
     List<String> getAllFilmsGenresNames(int filmid);
+
+    @Query("DELETE FROM FilmsGenresList WHERE filmID=(:filmid)")
+    void deleteFilmGenre(int filmid);
 }
