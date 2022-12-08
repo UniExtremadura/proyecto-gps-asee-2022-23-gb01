@@ -28,6 +28,25 @@ public class Films implements Serializable {
         totalVotesMovieCheck = 0;
     }
 
+    public Films(Boolean fadult, String bd_path, String origlangage, Double pop, String origTitle, Boolean fvideo, Integer vote, Integer fid, String ftitle, List<Integer> list, String poster, String foverview, String date, Double voteAver, Integer totalVote, Integer totalRating) {
+        adult = fadult;
+        backdropPath = bd_path;
+        originalLanguage = origlangage;
+        popularity = pop;
+        originalTitle = origTitle;
+        video = fvideo;
+        voteCount = vote;
+        id = fid;
+        title = ftitle;
+        genreIds = list;
+        posterPath = poster;
+        overview = foverview;
+        releaseDate = date;
+        voteAverage = voteAver;
+        totalVotesMovieCheck = totalVote;
+        totalRatingMovieCheck = totalRating;
+    }
+
     // Atributos de la clase Film
     @Ignore
     @SerializedName("adult")
