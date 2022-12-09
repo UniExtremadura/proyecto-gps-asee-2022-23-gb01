@@ -1,6 +1,7 @@
 package es.unex.asee_proyectoprueba.room;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -14,6 +15,12 @@ public interface FilmDAO {
 
     @Insert
     void insertAllFilms(List<Films> filmsList);
+
+    @Insert
+    void insertFilm(Films film);
+
+    @Delete
+    void deleteFilm(Films film);
 
     @Update
     void updateFilm(Films film);
