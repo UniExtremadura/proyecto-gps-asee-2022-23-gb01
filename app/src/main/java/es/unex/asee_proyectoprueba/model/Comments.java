@@ -29,7 +29,6 @@ public class Comments {
         this.text = text;
     }
 
-
     // Métodos SET and GET de la clase comentario
     public int getCommentID() {
         return commentID;
