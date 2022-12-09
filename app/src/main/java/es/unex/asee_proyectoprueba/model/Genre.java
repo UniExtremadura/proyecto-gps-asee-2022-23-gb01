@@ -12,6 +12,15 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "Genres")
 public class Genre implements Comparable<Genre> {
 
+    public Genre(){
+
+    }
+
+    public Genre(int genreID, String name){
+        this.id = genreID;
+        this.name = name;
+    }
+
     @PrimaryKey
     @ColumnInfo(name = "genreID")
     @SerializedName("id")
