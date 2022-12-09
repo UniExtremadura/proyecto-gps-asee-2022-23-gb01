@@ -52,4 +52,13 @@ public class FilmsPages {
         this.results = results;
     }
 
+    public FilmsPages(){}
+
+    public FilmsPages(Integer numpage, Integer numresults, Integer pages, List<Films> list) {
+        page = numpage;
+        totalResults = numresults;
+        totalPages = pages;
+        results = list;
+    }
+
 }
