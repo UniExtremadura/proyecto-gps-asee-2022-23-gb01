@@ -22,6 +22,13 @@ public class Comments {
         this.text = text;
     }
 
+    public Comments(int commentid, String username, int filmID, String text) {
+        this.commentID = commentid;
+        this.username = username;
+        this.filmID = filmID;
+        this.text = text;
+    }
+
     // Métodos SET and GET de la clase comentario
     public int getCommentID() {
         return commentID;
