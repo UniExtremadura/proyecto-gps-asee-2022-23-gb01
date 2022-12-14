@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
 
     private ActivityMainBinding binding;
     private SharedPreferences loginPreferences;
+    private final String username = "USERNAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +88,13 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
             @Override
             public void run() {
                 FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
-                for (Films film : db.filmDAO().getFavoritesFilms(loginPreferences.getString("USERNAME", ""))) {
+                for (Films film : db.filmDAO().getFavoritesFilms(loginPreferences.getString(username, ""))) {
                     userFilmsData.userFavoriteFilms.put(film.getId(), film);
                 }
-                for (Films film : db.filmDAO().getPendingsFilms(loginPreferences.getString("USERNAME", ""))) {
+                for (Films film : db.filmDAO().getPendingsFilms(loginPreferences.getString(username, ""))) {
                     userFilmsData.userPendingFilms.put(film.getId(), film);
                 }
-                userFilmsData.userRatedFilms.addAll(db.ratingDAO().getRatingIDs(loginPreferences.getString("USERNAME", "")));
+                userFilmsData.userRatedFilms.addAll(db.ratingDAO().getRatingIDs(loginPreferences.getString(username, "")));
             }
         });
     }
@@ -190,7 +191,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
             @Override
             public void run() {
                 FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
-                db.favoritesDAO().deleteFavorites(new Favorites(film.getId(), loginPreferences.getString("USERNAME", "")));
+                db.favoritesDAO().deleteFavorites(new Favorites(film.getId(), loginPreferences.getString(username, "")));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -209,7 +210,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
             @Override
             public void run() {
                 FilmsDatabase db = FilmsDatabase.getInstance(HomeActivity.this);
-                db.pendingsDAO().deletePendings(new Pendings(film.getId(), loginPreferences.getString("USERNAME", "")));
+                db.pendingsDAO().deletePendings(new Pendings(film.getId(), loginPreferences.getString(username, "")));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
