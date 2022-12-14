@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.P
 
     private ActivityMainBinding binding;
     private SharedPreferences loginPreferences;
-    private final String username = "USERNAME";
+    private static final String username = "USERNAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
