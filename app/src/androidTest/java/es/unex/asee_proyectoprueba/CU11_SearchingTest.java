@@ -103,12 +103,6 @@ public class CU11_SearchingTest {
         String title = films.getTitle();
         String name = genre.getName();
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         ViewInteraction materialTextView = onView(
                 allOf(withId(R.id.tvRegisterLogin), withText(R.string.register),
                         childAtPosition(
