@@ -8,7 +8,6 @@ import androidx.room.Query;
 import java.util.List;
 
 import es.unex.asee_proyectoprueba.model.Comments;
-import es.unex.asee_proyectoprueba.model.Comments;
 
 @Dao
 public interface CommentDAO {
