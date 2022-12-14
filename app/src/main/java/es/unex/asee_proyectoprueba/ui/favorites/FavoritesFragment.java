@@ -41,7 +41,7 @@ public class FavoritesFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         UserFilmsData userFilmsData = UserFilmsData.getInstance();
-        List<Films> userFavoriteFilms  = new ArrayList<Films>(userFilmsData.userFavoriteFilms.values());
+        List<Films> userFavoriteFilms  = new ArrayList<>(userFilmsData.userFavoriteFilms.values());
 
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
         filmListAdapter = new FilmListAdapter(userFavoriteFilms,R.layout.favorites_item_list_content, getContext());
@@ -61,7 +61,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         UserFilmsData userFilmsData = UserFilmsData.getInstance();
-        List<Films> userFavoriteFilms  = new ArrayList<Films>(userFilmsData.userFavoriteFilms.values());
+        List<Films> userFavoriteFilms  = new ArrayList<>(userFilmsData.userFavoriteFilms.values());
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

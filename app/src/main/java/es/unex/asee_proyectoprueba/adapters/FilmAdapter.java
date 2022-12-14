@@ -18,7 +18,7 @@ import java.util.List;
 import es.unex.asee_proyectoprueba.R;
 import es.unex.asee_proyectoprueba.model.Films;
 
-public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.filmsAdapterViewHolder> {
+public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmsAdapterViewHolder> {
     private List<Films> filmList;
     private final FilmListener filmListener;
     /*
@@ -36,13 +36,13 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.filmsAdapterVi
 
     @NonNull
     @Override
-    public filmsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FilmsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(this.listItemLayout, parent,false);
-        return new filmsAdapterViewHolder(view);
+        return new FilmsAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull filmsAdapterViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull FilmsAdapterViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.title.setText(filmList.get(position).getTitle());
         Glide.with(holder.image.getContext()).load("https://image.tmdb.org/t/p/original/"+filmList.get(position).getPosterPath()).into(holder.image);
         holder.date.setText(filmList.get(position).getReleaseDate().split("-")[0]);
@@ -59,12 +59,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.filmsAdapterVi
         return filmList.size();
     }
 
-    public static class filmsAdapterViewHolder extends RecyclerView.ViewHolder {
+    public static class FilmsAdapterViewHolder extends RecyclerView.ViewHolder {
         final TextView title;
         final ImageView image;
         final TextView date;
 
-        filmsAdapterViewHolder(View view) {
+        FilmsAdapterViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.tvMovieTitle);
             image = (ImageView) view.findViewById(R.id.ivMoviePoster);
